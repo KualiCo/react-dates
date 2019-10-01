@@ -30,6 +30,7 @@ const propTypes = forbidExtraProps({
   displayValue: PropTypes.string,
   ariaLabel: PropTypes.string,
   screenReaderMessage: PropTypes.string,
+  ariaDescribedBy: PropTypes.string,
   focused: PropTypes.bool,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
@@ -58,6 +59,7 @@ const defaultProps = {
   displayValue: '',
   ariaLabel: undefined,
   screenReaderMessage: '',
+  ariaDescribedBy: '',
   focused: false,
   disabled: false,
   required: false,
@@ -177,6 +179,7 @@ class DateInput extends React.PureComponent {
       ariaLabel,
       displayValue,
       screenReaderMessage,
+      ariaDescribedBy,
       focused,
       showCaret,
       onFocus,
@@ -198,6 +201,8 @@ class DateInput extends React.PureComponent {
     const withFang = showCaret && focused;
 
     const inputHeight = getInputHeight(reactDates, small);
+
+    const ariaDescribedByMessage = `${ariaDescribedBy} ${screenReaderMessage && screenReaderMessageId}`;
 
     return (
       <div
@@ -234,7 +239,7 @@ class DateInput extends React.PureComponent {
           disabled={disabled}
           readOnly={typeof readOnly === 'boolean' ? readOnly : isTouch}
           required={required}
-          aria-describedby={screenReaderMessage && screenReaderMessageId}
+          aria-describedby={ariaDescribedByMessage}
         />
 
         {withFang && (

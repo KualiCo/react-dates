@@ -39,6 +39,7 @@ export default {
   required: PropTypes.bool,
   readOnly: PropTypes.bool,
   screenReaderInputMessage: PropTypes.string,
+  ariaDescribedBy: PropTypes.string,
   showClearDates: PropTypes.bool,
   showDefaultInputIcon: PropTypes.bool,
   inputIconPosition: IconPositionShape,

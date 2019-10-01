@@ -34,7 +34,8 @@ const propTypes = forbidExtraProps({
   onFocusChange: PropTypes.func.isRequired,
 
   id: PropTypes.string.isRequired,
-  placeholder: PropTypes.string, // also used as label
+  placeholder: PropTypes.string,
+  ariaLabel: PropTypes.string,
   screenReaderMessage: PropTypes.string,
   ariaDescribedBy: PropTypes.string,
   showClearDate: PropTypes.bool,
@@ -79,6 +80,7 @@ const defaultProps = {
   focused: false,
 
   placeholder: '',
+  ariaLabel: undefined,
   screenReaderMessage: 'Date',
   ariaDescribedBy: '',
   showClearDate: false,
@@ -97,7 +99,7 @@ const defaultProps = {
 
   keepOpenOnDateSelect: false,
   reopenPickerOnClearDate: false,
-  isOutsideRange: day => !isInclusivelyAfterDay(day, moment()),
+  isOutsideRange: (day) => !isInclusivelyAfterDay(day, moment()),
   displayFormat: () => moment.localeData().longDateFormat('L'),
 
   onClose() {},
@@ -199,6 +201,7 @@ export default class SingleDatePickerInputController extends React.PureComponent
       children,
       id,
       placeholder,
+      ariaLabel,
       disabled,
       focused,
       isFocused,
@@ -231,6 +234,7 @@ export default class SingleDatePickerInputController extends React.PureComponent
       <SingleDatePickerInput
         id={id}
         placeholder={placeholder}
+        ariaLabel={ariaLabel}
         focused={focused}
         isFocused={isFocused}
         disabled={disabled}

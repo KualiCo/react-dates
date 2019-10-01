@@ -33,6 +33,7 @@ import {
   INFO_POSITION_BOTTOM,
   FANG_HEIGHT_PX,
   DEFAULT_VERTICAL_SPACING,
+  NAV_POSITION_TOP,
 } from '../constants';
 
 const propTypes = forbidExtraProps({
@@ -48,6 +49,7 @@ const defaultProps = {
   // input related props
   id: 'date',
   placeholder: 'Date',
+  ariaLabel: undefined,
   disabled: false,
   required: false,
   readOnly: false,
@@ -89,6 +91,8 @@ const defaultProps = {
   horizontalMonthPadding: 13,
 
   // navigation related props
+  dayPickerNavigationInlineStyles: null,
+  navPosition: NAV_POSITION_TOP,
   navPrev: null,
   navNext: null,
 
@@ -98,6 +102,7 @@ const defaultProps = {
 
   // month presentation and interaction related props
   renderMonthText: null,
+  renderWeekHeaderElement: null,
 
   // day presentation and interaction related props
   renderCalendarDay: undefined,
@@ -105,7 +110,7 @@ const defaultProps = {
   renderMonthElement: null,
   enableOutsideDays: false,
   isDayBlocked: () => false,
-  isOutsideRange: day => !isInclusivelyAfterDay(day, moment()),
+  isOutsideRange: (day) => !isInclusivelyAfterDay(day, moment()),
   isDayHighlighted: () => {},
 
   // internationalization props
@@ -188,8 +193,7 @@ class SingleDatePicker extends React.PureComponent {
       focused,
       onFocusChange,
       onClose,
-      startDate,
-      endDate,
+      date,
       appendToBody,
     } = this.props;
 
@@ -203,7 +207,7 @@ class SingleDatePicker extends React.PureComponent {
     });
 
     onFocusChange({ focused: false });
-    onClose({ startDate, endDate });
+    onClose({ date });
   }
 
   onInputFocus({ focused }) {
@@ -249,7 +253,16 @@ class SingleDatePicker extends React.PureComponent {
 
   onFocusOut(e) {
     const { onFocusChange } = this.props;
-    if (this.dayPickerContainer.contains(e.relatedTarget || e.target)) return;
+    // In cases where **relatedTarget** is not null, it points to the right
+    // element here. However, in cases where it is null (such as clicking on a
+    // specific day) or it is **document.body** (IE11), the appropriate value is **event.target**.
+    //
+    // We handle both situations here by using the ` || ` operator to fallback
+    // to *event.target** when **relatedTarget** is not provided.
+    const relatedTarget = e.relatedTarget === document.body
+      ? e.target
+      : (e.relatedTarget || e.target);
+    if (this.dayPickerContainer.contains(relatedTarget)) return;
     onFocusChange({ focused: false });
   }
 
@@ -385,6 +398,8 @@ class SingleDatePicker extends React.PureComponent {
       numberOfMonths,
       orientation,
       monthFormat,
+      dayPickerNavigationInlineStyles,
+      navPosition,
       navPrev,
       navNext,
       onPrevMonthClick,
@@ -395,6 +410,7 @@ class SingleDatePicker extends React.PureComponent {
       keepOpenOnDateSelect,
       initialVisibleMonth,
       renderMonthText,
+      renderWeekHeaderElement,
       renderCalendarDay,
       renderDayContents,
       renderCalendarInfo,
@@ -465,12 +481,15 @@ class SingleDatePicker extends React.PureComponent {
           keepOpenOnDateSelect={keepOpenOnDateSelect}
           hideKeyboardShortcutsPanel={hideKeyboardShortcutsPanel}
           initialVisibleMonth={initialVisibleMonth}
+          dayPickerNavigationInlineStyles={dayPickerNavigationInlineStyles}
+          navPosition={navPosition}
           navPrev={navPrev}
           navNext={navNext}
           onPrevMonthClick={onPrevMonthClick}
           onNextMonthClick={onNextMonthClick}
           onClose={onClose}
           renderMonthText={renderMonthText}
+          renderWeekHeaderElement={renderWeekHeaderElement}
           renderCalendarDay={renderCalendarDay}
           renderDayContents={renderDayContents}
           renderCalendarInfo={renderCalendarInfo}
@@ -513,6 +532,7 @@ class SingleDatePicker extends React.PureComponent {
     const {
       id,
       placeholder,
+      ariaLabel,
       disabled,
       focused,
       required,
@@ -553,6 +573,7 @@ class SingleDatePicker extends React.PureComponent {
       <SingleDatePickerInputController
         id={id}
         placeholder={placeholder}
+        ariaLabel={ariaLabel}
         focused={focused}
         isFocused={isInputFocused}
         disabled={disabled}

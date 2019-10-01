@@ -13,6 +13,7 @@ import anchorDirectionShape from './AnchorDirectionShape';
 import openDirectionShape from './OpenDirectionShape';
 import DayOfWeekShape from './DayOfWeekShape';
 import CalendarInfoPositionShape from './CalendarInfoPositionShape';
+import NavPositionShape from './NavPositionShape';
 
 export default {
   // required props for a functional interactive DateRangePicker
@@ -32,6 +33,8 @@ export default {
   endDateOffset: PropTypes.func,
   endDateId: PropTypes.string.isRequired,
   endDatePlaceholderText: PropTypes.string,
+  startDateAriaLabel: PropTypes.string,
+  endDateAriaLabel: PropTypes.string,
   disabled: DisabledShape,
   required: PropTypes.bool,
   readOnly: PropTypes.bool,
@@ -52,6 +55,7 @@ export default {
   // calendar presentation and interaction related props
   renderMonthText: mutuallyExclusiveProps(PropTypes.func, 'renderMonthText', 'renderMonthElement'),
   renderMonthElement: mutuallyExclusiveProps(PropTypes.func, 'renderMonthText', 'renderMonthElement'),
+  renderWeekHeaderElement: PropTypes.func,
   orientation: OrientationShape,
   anchorDirection: anchorDirectionShape,
   openDirection: openDirectionShape,
@@ -76,6 +80,8 @@ export default {
   horizontalMonthPadding: nonNegativeInteger,
 
   // navigation related props
+  dayPickerNavigationInlineStyles: PropTypes.object,
+  navPosition: NavPositionShape,
   navPrev: PropTypes.node,
   navNext: PropTypes.node,
   onPrevMonthClick: PropTypes.func,
@@ -85,6 +91,8 @@ export default {
   renderCalendarDay: PropTypes.func,
   renderDayContents: PropTypes.func,
   minimumNights: PropTypes.number,
+  minDate: momentPropTypes.momentObj,
+  maxDate: momentPropTypes.momentObj,
   enableOutsideDays: PropTypes.bool,
   isDayBlocked: PropTypes.func,
   isOutsideRange: PropTypes.func,

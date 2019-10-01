@@ -1,8 +1,11 @@
 {
-  "name": "react-dates",
+  "name": "@kuali/react-dates",
   "version": "21.2.0",
   "description": "A responsive and accessible date range picker component built with React",
   "main": "index.js",
+  "publishConfig": {
+    "registry": "https://npm.kuali.co/"
+  },
   "scripts": {
     "prebuild": "npm run clean",
     "build": "npm run build:cjs && npm run build:esm && npm run build:css -- --optimize ",
@@ -42,14 +45,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/airbnb/react-dates.git"
+    "url": "git+https://github.com/KualiCo/react-dates.git"
   },
   "author": "Maja Wichrowska <maja.wichrowska@airbnb.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/airbnb/react-dates/issues"
+    "url": "https://github.com/KualiCo/react-dates/issues"
   },
-  "homepage": "https://github.com/airbnb/react-dates#readme",
+  "homepage": "https://github.com/KualiCo/react-dates#readme",
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
